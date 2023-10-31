@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.navArgs
 import jp.ac.it_college.std.s22002.navigationsample.databinding.FragmentThirdBinding
 
 class ThirdFragment : Fragment() {
     private var _binding: FragmentThirdBinding? = null
     private val binding get() = _binding!!
+    private val args: ThirdFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,8 +23,7 @@ class ThirdFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val choice = arguments?.getInt("choice",0)
-        binding.display.text = "<$choice>"
+        binding.display.text = "<${args.choice}>"
     }
 
     override fun onDestroyView() {

@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_secondFragment"
-            app:destination="@id/secondFragment" />
+            app:destination="@id/secondFragment"
+            app:enterAnim="@anim/slid_in_right"
+            app:exitAnim="@anim/slid_out_left"
+            app:popEnterAnim="@anim/slid_in_left"
+            app:popExitAnim="@anim/slid_out_right" />
     </fragment>
     <fragment
         android:id="@+id/secondFragment"
@@ -27,5 +31,10 @@
         android:id="@+id/thirdFragment"
         android:name="jp.ac.it_college.std.s22002.navigationsample.fragment.ThirdFragment"
         android:label="fragment_third"
-        tools:layout="@layout/fragment_third" />
+        tools:layout="@layout/fragment_third" >
+        <argument
+            android:name="choice"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>
