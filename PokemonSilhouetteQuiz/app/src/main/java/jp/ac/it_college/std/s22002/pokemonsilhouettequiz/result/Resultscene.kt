@@ -33,5 +33,6 @@ fun ResultScenePreview(){
         ResultScene(
             result = 0,
             modifier = Modifier.fillMaxSize()
+        )
     }
 }
