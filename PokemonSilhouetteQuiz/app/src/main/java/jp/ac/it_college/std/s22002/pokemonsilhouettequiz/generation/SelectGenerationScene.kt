@@ -54,9 +54,6 @@ fun ItemGeneration(generation: Int, seriesName:String){
         }
 
     }
-
-
-
 }
 
 @Preview(showBackground = true, widthDp = 320)

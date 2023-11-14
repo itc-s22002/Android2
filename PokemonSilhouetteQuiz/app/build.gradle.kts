@@ -76,9 +76,14 @@ dependencies {
 
     implementation("androidx.navigation:navigation-compose:2.7.5")
 
-
+    implementation ("io.ktor:ktor-client-core:2.3.6")
+    implementation ("io.ktor:ktor-client-android:2.3.6")
+    implementation ("io.ktor:ktor-client-okhttp:2.3.6")
+    implementation ("io.ktor:ktor-client-serialization-jvm:2.3.6")
 
     implementation("androidx.room:room-runtime:2.6.0")
     ksp("androidx.room:room-compiler:2.6.0")
     implementation("androidx.room:room-compiler:2.6.0")
+
+    implementation("io.coil-kt:coil-compose:2.5.0")
 }
