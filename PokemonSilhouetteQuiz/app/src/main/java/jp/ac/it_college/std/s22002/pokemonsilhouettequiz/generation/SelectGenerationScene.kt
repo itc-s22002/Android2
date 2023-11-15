@@ -1,14 +1,12 @@
 package jp.ac.it_college.std.s22002.pokemonsilhouettequiz.generation
 
-import android.content.ClipData.Item
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,28 +18,34 @@ import jp.ac.it_college.std.s22002.pokemonsilhouettequiz.R
 import jp.ac.it_college.std.s22002.pokemonsilhouettequiz.ui.theme.PokemonSilhouetteQuizTheme
 
 @Composable
-fun SelectGenerationScene(modifier: Modifier = Modifier){
-    Surface (modifier) {
-                LazyColumn(modifier = Modifier.fillMaxSize()){
-                    items(1){
-                        ItemGeneration(generation = 9, seriesName = "スカーレット\nバイオレット")
-                    }
-                }
+fun SelectGenerationScene(modifier: Modifier = Modifier, onGenerationSelected: (Int) -> Unit = {}) {
+    Surface(modifier) {
+        LazyColumn(modifier = Modifier.fillMaxWidth()) {
+            items(1) {
+                Generation(
+                    generation = 9,
+                    seriesName = "スカーレット/バイオレット",
+                    onGenerationSelected = onGenerationSelected
+                )
+            }
+        }
     }
 }
 
 @Composable
-fun ItemGeneration(generation: Int, seriesName:String){
-    Surface (
+fun Generation(generation: Int, seriesName: String, onGenerationSelected: (Int) -> Unit = {}) {
+    Surface(
         color = MaterialTheme.colorScheme.tertiary,
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-    ){
-        Column (
+            .clickable { onGenerationSelected(generation) }
+    ) {
+        Column(
             modifier = Modifier
                 .padding(8.dp)
-        ){
+
+        ) {
             Text(
                 text = stringResource(id = R.string.generation, generation),
                 style = MaterialTheme.typography.titleLarge
@@ -50,15 +54,13 @@ fun ItemGeneration(generation: Int, seriesName:String){
                 text = seriesName,
                 style = MaterialTheme.typography.titleMedium
             )
-
         }
-
     }
 }
 
 @Preview(showBackground = true, widthDp = 320)
 @Composable
-fun SelectGenerationScenePreview(){
+fun SelectGenerationScenePreview() {
     PokemonSilhouetteQuizTheme {
         SelectGenerationScene(Modifier.fillMaxSize())
     }

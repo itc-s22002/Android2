@@ -1,8 +1,8 @@
 package jp.ac.it_college.std.s22002.pokemonsilhouettequiz.title
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -18,25 +18,27 @@ import jp.ac.it_college.std.s22002.pokemonsilhouettequiz.R
 import jp.ac.it_college.std.s22002.pokemonsilhouettequiz.ui.theme.PokemonSilhouetteQuizTheme
 
 @Composable
-fun TitleScene(modifier: Modifier = Modifier){
-    Surface (modifier){
-        Column (
-            modifier = Modifier.fillMaxWidth(),
+fun TitleScene(modifier: Modifier = Modifier, onTitleClick: () -> Unit = {}) {
+    Surface(modifier) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .clickable(onClick = onTitleClick),
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
             Text(
                 text = stringResource(id = R.string.app_name),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.displayLarge,
                 modifier = Modifier.padding(vertical = 24.dp)
             )
-        }   
+        }
     }
 }
 
 @Preview(showBackground = true, widthDp = 320)
 @Composable
-fun TitleScenePreview(){
+fun TitleScenePreview() {
     PokemonSilhouetteQuizTheme {
         TitleScene(Modifier.fillMaxSize())
     }
