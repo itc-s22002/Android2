@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,25 +35,40 @@ import coil.compose.AsyncImage
 import jp.ac.it_college.std.s22002.pokemonsilhouettequiz.PokeQuiz
 import jp.ac.it_college.std.s22002.pokemonsilhouettequiz.R
 import jp.ac.it_college.std.s22002.pokemonsilhouettequiz.ui.theme.PokemonSilhouetteQuizTheme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun QuizScene(
     quiz: PokeQuiz,
     modifier: Modifier = Modifier,
+    onFinished: (Boolean) -> Unit = {},
 ) {
     var state by remember { mutableIntStateOf(0) }
+    val scope = rememberCoroutineScope()
+
     Surface(modifier) {
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
             PokeImage(quiz.imageUrl, state)
             PokeNameList(quiz.choice, state == 0) {
+                // 正誤チェック
                 state = if (it == quiz.correct) 1 else -1
+                // 待機と終了
+                scope.launch {
+                    delay(3000)
+                    onFinished(state > 0)
+                }
             }
         }
     }
 }
 
+/**
+ * [imageUrl] にポケモンの画像がある URL を指定
+ * [isSilhouette] が ture だとシルエット表示
+ */
 @Composable
 fun PokeImage(imageUrl: String, state: Int = 0) {
     Box(
@@ -71,6 +87,8 @@ fun PokeImage(imageUrl: String, state: Int = 0) {
             AsyncImage(
                 model = imageUrl,
                 contentDescription = "PokeImage",
+                // カラーフィルターでシルエット表示みたいなことができる。
+                // 画像加工の詳細は各自で勉強してください
                 colorFilter = if (state == 0) ColorFilter.tint(
                     Color.Black,
                     BlendMode.SrcIn
@@ -84,6 +102,7 @@ fun PokeImage(imageUrl: String, state: Int = 0) {
             Image(
                 painter = painterResource(id = R.drawable.mark_maru),
                 contentDescription = "",
+                alpha = 0.25f,
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -92,6 +111,7 @@ fun PokeImage(imageUrl: String, state: Int = 0) {
             Image(
                 painter = painterResource(id = R.drawable.mark_batsu),
                 contentDescription = "",
+                alpha = 0.25f,
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -100,6 +120,7 @@ fun PokeImage(imageUrl: String, state: Int = 0) {
 
 @Composable
 fun PokeName(name: String, enabled: Boolean, onClick: (String) -> Unit = {}) {
+    // 背景色・文字色を全体的に設定するために使ってる
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -112,6 +133,7 @@ fun PokeName(name: String, enabled: Boolean, onClick: (String) -> Unit = {}) {
                 .padding(8.dp)
 
         ) {
+            // なまえ
             Text(
                 text = name,
                 style = MaterialTheme.typography.titleLarge

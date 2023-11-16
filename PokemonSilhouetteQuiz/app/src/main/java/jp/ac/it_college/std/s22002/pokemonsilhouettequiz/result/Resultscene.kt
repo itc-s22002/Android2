@@ -1,9 +1,11 @@
 package jp.ac.it_college.std.s22002.pokemonsilhouettequiz.result
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -18,36 +20,49 @@ import jp.ac.it_college.std.s22002.pokemonsilhouettequiz.R
 import jp.ac.it_college.std.s22002.pokemonsilhouettequiz.ui.theme.PokemonSilhouetteQuizTheme
 
 @Composable
-fun ResultScene
-            (
+fun ResultScene(
     result: Int,
-    modifier: Modifier = Modifier
-){
-    Surface (modifier){
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+    modifier: Modifier = Modifier,
+    onClickGenerationButton: () -> Unit = {},
+    onCLickTitleButton: () -> Unit = {},
+) {
+    Surface(modifier) {
+        Column {
+            // 見出し用のラベル
             Text(
                 text = stringResource(id = R.string.score),
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.displayLarge,
-                modifier = Modifier.padding(vertical = 24.dp)
+                style = MaterialTheme.typography.headlineLarge
             )
+            // 実際の点数
             Text(
                 text = stringResource(id = R.string.point, result),
-                textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.displayLarge,
-                modifier = Modifier.padding(vertical = 24.dp)
+                textAlign = TextAlign.End,
+                modifier = Modifier.fillMaxWidth(0.75f)
             )
+            // ちょっと空間開ける
+            Spacer(modifier = Modifier.padding(vertical = 16.dp))
+            // 世代選択ボタン
+            Button(
+                onClick = onClickGenerationButton,
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Text(text = stringResource(id = R.string.to_generation))
+            }
+            // タイトルへボタン
+            Button(
+                onClick = onCLickTitleButton,
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Text(text = stringResource(id = R.string.to_title))
+            }
         }
     }
-
 }
 
 @Preview(showBackground = true, widthDp = 320)
 @Composable
-fun ResultScenePreview(){
+fun ResultScenePreview() {
     PokemonSilhouetteQuizTheme {
         ResultScene(
             result = 0,
