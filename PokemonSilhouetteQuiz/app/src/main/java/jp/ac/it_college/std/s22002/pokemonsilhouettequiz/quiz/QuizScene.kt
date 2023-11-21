@@ -32,7 +32,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import jp.ac.it_college.std.s22002.pokemonsilhouettequiz.PokeQuiz
+import jp.ac.it_college.std.s22002.pokemonsilhouettequiz.model.PokeQuiz
 import jp.ac.it_college.std.s22002.pokemonsilhouettequiz.R
 import jp.ac.it_college.std.s22002.pokemonsilhouettequiz.ui.theme.PokemonSilhouetteQuizTheme
 import kotlinx.coroutines.delay

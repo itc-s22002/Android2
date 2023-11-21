@@ -1,4 +1,4 @@
-package jp.ac.it_college.std.s22002.pokemonsilhouettequiz
+package jp.ac.it_college.std.s22002.pokemonsilhouettequiz.model
 
 import android.icu.lang.UProperty.NameChoice
 
