@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">WeatherMap</string>
+    <string name="app_name">３時間毎の天気</string>
+    <string name="city_name">北海度</string>
 </resources>
