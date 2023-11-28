@@ -16,6 +16,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -29,14 +33,25 @@ import jp.ac.it_college.std.s22002.pokemonsilhouettequiz.quiz.QuizScene
 import jp.ac.it_college.std.s22002.pokemonsilhouettequiz.result.ResultScene
 import jp.ac.it_college.std.s22002.pokemonsilhouettequiz.title.TitleScene
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
+import java.util.prefs.Preferences
 
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "pokeApi")
 object Destinations {
     const val TITLE = "title"
     const val GENERATION = "generation_select"
     const val QUIZ = "quiz/{order}"
     const val RESULT = "result"
+    const val LOADING = "result"
+    const val DOWNLOAD =
 }
 
 @OptIn(ExperimentalMaterial3Api::class)     // 比較的新しい実験的な機能を使うときに指定するらしい。
@@ -150,6 +165,17 @@ fun PokeNavigation(
             }
         }
     }
+}
+
+fun isReadyData(context: Context){
+    val LAST_UPDATED_AT = stringPreferencesKey("last_updated_at")
+    val lastUpdatedAtStringFlow: Flow<String> = context.dataStore.data
+        .map {
+            it[LAST_UPDATED_AT] ?: LocalDateTime.MIN.toString()
+        }
+
+    val lastUpdatedAt = runBlocking {LocalDateTime.parse(lastUpdatedAtStringFlow.first())}
+    return ChronoUnit.MONTHS.between(lastUpdatedAt, LocalDateTime.now()) = 0
 }
 
 suspend fun generateQuizData(context: Context, generation: Int): List<PokeQuiz> =
