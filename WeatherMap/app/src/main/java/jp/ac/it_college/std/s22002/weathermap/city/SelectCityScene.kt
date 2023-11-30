@@ -46,7 +46,6 @@ fun SelectCityScene(modifier: Modifier = Modifier, onCitySelected: (Int) -> Unit
 
 @Composable
 fun City(cityId: Int, cityName: String, onCitySelected: (Int) -> Unit = {}) {
-    // 背景色・文字色を全体的に設定するために使ってる
     Surface(
         color = MaterialTheme.colorScheme.tertiary,
         modifier = Modifier
