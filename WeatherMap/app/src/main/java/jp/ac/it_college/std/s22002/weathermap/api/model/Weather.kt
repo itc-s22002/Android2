@@ -1,6 +1,5 @@
 package jp.ac.it_college.std.s22002.weathermap.api.model
 
-import jp.ac.it_college.std.s22002.weathermap.MainActivity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -15,17 +14,17 @@ data class WeatherInfo(
     val main: Main,
     val weather: List<Weather>,
     val wind: Wind,
-    @SerialName("pop") val percent: Long,
-    val snows: Snow,
+    @SerialName("pop") val percent: Double,
+    val snow: Snow? = (null),
     @SerialName("dt_txt") val times: String
     )
 
 @Serializable
 data class Main(
     val temp: Double,
-    @SerialName("feels_like") val feels:Long,
-    @SerialName("grnd_level") val ground:Long,
-    val humidity: Long
+    @SerialName("feels_like") val feels:Double,
+    @SerialName("grnd_level") val ground:Double,
+    val humidity: String
 
 )
 
@@ -37,12 +36,12 @@ data class Weather(
 
 @Serializable
 data class Wind(
-    val speed: Long,
-    val deg: Long,
-    val gust: Long
+    val speed: Double,
+    val deg: Double,
+    val gust: Double
 )
 
 @Serializable
 data class Snow(
-    @SerialName("3h") val snowfall:Long
+    @SerialName("3h") val snowfall:Double?
 )
