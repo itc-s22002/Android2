@@ -97,7 +97,7 @@ fun SelectCityScene(
         "1858421" to "熊本",
         "1854487" to "大分",
         "1856717" to "宮崎",
-        "1860827z" to "鹿児島",
+        "1860827" to "鹿児島",
         "1856035" to "沖縄"
         )
     var expanded by remember { mutableStateOf(false) }
@@ -205,14 +205,10 @@ fun SelectCityScene(
                         items(40) { index ->
                             apiTempResult = apiListResult?.list?.get(index)?.main?.temp
                             apiFeelsResult = apiListResult?.list?.get(index)?.main?.feels
-                            apiGroundResult =
-                                apiListResult?.list?.get(index)?.main?.ground.toString()
-                            apiHumidityResult =
-                                apiListResult?.list?.get(index)?.main?.humidity.toString()
-                            apiMainResult =
-                                apiListResult?.list?.get(index)?.weather?.get(0)?.main.toString()
-                            apiIconResult =
-                                apiListResult?.list?.get(index)?.weather?.get(0)?.icon.toString()
+                            apiGroundResult = apiListResult?.list?.get(index)?.main?.ground.toString()
+                            apiHumidityResult = apiListResult?.list?.get(index)?.main?.humidity.toString()
+                            apiMainResult = apiListResult?.list?.get(index)?.weather?.get(0)?.main.toString()
+                            apiIconResult = apiListResult?.list?.get(index)?.weather?.get(0)?.icon.toString()
                             apiSpeedResult = apiListResult?.list?.get(index)?.wind?.speed.toString()
                             apiDegResult = apiListResult?.list?.get(index)?.wind?.deg.toString()
                             apiGustResult = apiListResult?.list?.get(index)?.wind?.gust.toString()
@@ -220,7 +216,7 @@ fun SelectCityScene(
                             apiTimesResult = apiListResult?.list?.get(index)?.times.toString()
                             apiSnowResult = apiListResult?.list?.get(index)?.snow?.snowfall.toString()
                             if(apiSnowResult == "null") {
-                                apiSnowResult = "0"
+                                apiSnowResult = "--"
                             }
                             apiIntTempResult = apiTempResult?.minus(273.15)?.roundToInt()
                             apiIntFeelsResult = apiFeelsResult?.minus(273.15)?.roundToInt()
@@ -233,6 +229,8 @@ fun SelectCityScene(
                                     .padding(16.dp),
                                 color = Color.White
                                 )
+
+
                             Text(text = "気温:${apiIntTempResult}℃")
                             Text(text = "体感気温:${apiIntFeelsResult}℃")
                             Text(text = "気圧(陸上):${apiGroundResult}hPa")
@@ -243,7 +241,7 @@ fun SelectCityScene(
                                 contentDescription ="Weather Icon",
                                 modifier = Modifier
                                     .size(50.dp)
-                                    .background(Color.Cyan, shape = CircleShape),
+                                    .background(Color.Gray, shape = CircleShape),
                                 contentScale = ContentScale.Crop
                             )
                             Text(text = "風速:${apiSpeedResult}m/s")
