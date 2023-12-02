@@ -101,6 +101,7 @@ fun SelectCityScene(
         "1856035" to "沖縄"
         )
     var expanded by remember { mutableStateOf(false) }
+
     var apiTempResult by remember { mutableStateOf(0?.toDouble()) }
     var apiFeelsResult by remember { mutableStateOf(0?.toDouble()) }
     var apiGroundResult by remember { mutableStateOf("") }
@@ -228,7 +229,7 @@ fun SelectCityScene(
                                     .background(Color.Gray, shape = CircleShape)
                                     .padding(16.dp),
                                 color = Color.White
-                                )
+                            )
 
 
                             Text(text = "気温:${apiIntTempResult}℃")
