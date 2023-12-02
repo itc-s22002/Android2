@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.DropdownMenu
@@ -44,9 +45,7 @@ import jp.ac.it_college.std.s22002.weathermap.api.model.WeatherList
 import jp.ac.it_college.std.s22002.weathermap.ui.theme.WeatherMapTheme
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
-import kotlin.math.roundToLong
 
-data class IdList(val key: Int, val name: String)
 @Composable
 fun SelectCityScene(
     modifier: Modifier = Modifier,
@@ -114,7 +113,6 @@ fun SelectCityScene(
     var apiPercentResult by remember { mutableStateOf("") }
     var apiTimesResult by remember { mutableStateOf("") }
     var apiSnowResult by remember { mutableStateOf("") }
-    var apiIResult by remember { mutableStateOf("0") }
 
     var isVisible by remember { mutableStateOf(false) }
 
@@ -124,8 +122,13 @@ fun SelectCityScene(
     var apiListResult by remember { mutableStateOf<WeatherList?>(null)}
 
     var selectCity by remember { mutableStateOf(options["2130037"])}
+
+    var isSelectCity by remember { mutableStateOf(false) }
+
+
     var selectId by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
+
 
     Surface (modifier){
         Column (modifier = Modifier.fillMaxWidth()){
@@ -138,7 +141,7 @@ fun SelectCityScene(
 
             ){
                 Text(
-                    text = "都道府県を選択",
+                    text = "3時間毎5日間の天気予報",
                     textAlign = TextAlign.End,
                     modifier = Modifier.padding(vertical = 10.dp),
                     fontWeight = FontWeight.Bold,
@@ -162,7 +165,11 @@ fun SelectCityScene(
                             .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(text = selectCity.toString(), color = Color.White)
+                        if(isSelectCity){
+                            Text(text = selectCity.toString(), color = Color.White)
+                        }else{
+                            Text(text = "都道府県を選んでください", color = Color.White)
+                        }
                         Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = null, tint = Color.White)
                     }
                     DropdownMenu(
@@ -179,6 +186,7 @@ fun SelectCityScene(
                                     }
                                     selectCity = options[key]
                                     isVisible = true
+                                    isSelectCity = true
                                     expanded = false
 
                             })
@@ -190,9 +198,10 @@ fun SelectCityScene(
                     modifier = Modifier
                         .wrapContentSize(Alignment.TopStart)
                         .fillMaxHeight()
-                        .fillMaxWidth()
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
                 ) {
-                    LazyColumn {
+                    LazyColumn{
                         items(40) { index ->
                             apiTempResult = apiListResult?.list?.get(index)?.main?.temp
                             apiFeelsResult = apiListResult?.list?.get(index)?.main?.feels
@@ -216,7 +225,14 @@ fun SelectCityScene(
                             apiIntTempResult = apiTempResult?.minus(273.15)?.roundToInt()
                             apiIntFeelsResult = apiFeelsResult?.minus(273.15)?.roundToInt()
 
-                            Text(text = "予測時間:$apiTimesResult")
+                            Text(
+                                text = "予測時間:$apiTimesResult",
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                    .background(Color.Gray, shape = CircleShape)
+                                    .padding(16.dp),
+                                color = Color.White
+                                )
                             Text(text = "気温:${apiIntTempResult}℃")
                             Text(text = "体感気温:${apiIntFeelsResult}℃")
                             Text(text = "気圧(陸上):${apiGroundResult}hPa")
@@ -227,7 +243,7 @@ fun SelectCityScene(
                                 contentDescription ="Weather Icon",
                                 modifier = Modifier
                                     .size(50.dp)
-                                    .background(Color.White),
+                                    .background(Color.Cyan, shape = CircleShape),
                                 contentScale = ContentScale.Crop
                             )
                             Text(text = "風速:${apiSpeedResult}m/s")
@@ -235,7 +251,6 @@ fun SelectCityScene(
                             Text(text = "瞬間風速:${apiGustResult}m/s")
                             Text(text = "降水確率:${apiPercentResult}%")
                             Text(text = "積雪量:${apiSnowResult}mm")
-                            Text(text = "-----------------------")
                         }
                     }
                 }

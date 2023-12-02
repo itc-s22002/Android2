@@ -35,4 +35,5 @@ object Client {
     }
     suspend fun get(endpoint: String) =
         ktor.get { url("$BASE_URL&id=$endpoint&appid=$api_key&lang=jp") }
+
 }
